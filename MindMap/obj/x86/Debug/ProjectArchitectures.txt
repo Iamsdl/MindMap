@@ -1,2 +1,0 @@
-D:\SDL\Github\MindMap\Classes\Classes.csproj;x86
-D:\SDL\Github\MindMap\MindMap\MindMap.csproj;x86
