@@ -9,20 +9,16 @@
         >
     <Window.ContextMenu>
         <ContextMenu Name="GridContextMenu">
-            <MenuItem Name="EmptyAddNode" Header="Create new node" Click="EmptyAddNode_Click"/>
+            <MenuItem Name="EmptyAddNode" Header="Create new node" Click="EmptyAddNode_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
         </ContextMenu>
     </Window.ContextMenu>
     <Window.Resources>
         <ContextMenu x:Key="NodeContext">
-            <MenuItem Name="EditNode" Header="Edit node"/>
+            <MenuItem Name="EditNode" Header="Edit node" Click="EditNode_Click"/>
             <MenuItem Name="AddChild" Header="Add child node"/>
         </ContextMenu>
     </Window.Resources>
     <Grid Name="MainGrid">
-        <!--<Grid.ContextMenu>
-            <ContextMenu Name="GridContextMenu">
-                <MenuItem Name="EmptyAddNode" Header="Create new node" Click="EmptyAddNode_Click"/>
-            </ContextMenu>
-        </Grid.ContextMenu>-->
+        
     </Grid>
 </Window>
