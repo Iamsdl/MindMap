@@ -1,0 +1,6 @@
+D:\SDL\Github\MindMap\Classes\bin\Debug\Classes.dll
+D:\SDL\Github\MindMap\Classes\bin\Debug\Classes.pdb
+D:\SDL\Github\MindMap\Classes\obj\Debug\Classes.csprojAssemblyReference.cache
+D:\SDL\Github\MindMap\Classes\obj\Debug\Classes.csproj.CoreCompileInputs.cache
+D:\SDL\Github\MindMap\Classes\obj\Debug\Classes.dll
+D:\SDL\Github\MindMap\Classes\obj\Debug\Classes.pdb

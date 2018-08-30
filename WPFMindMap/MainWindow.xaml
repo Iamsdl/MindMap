@@ -1,4 +1,5 @@
-﻿<Window x:Class="WPFMindMap.MainWindow"
+﻿<Window Name="MainWindow"
+    x:Class="WPFMindMap.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,11 +15,11 @@
     </Window.ContextMenu>
     <Window.Resources>
         <ContextMenu x:Key="NodeContext">
-            <MenuItem Name="EditNode" Header="Edit node" Click="EditNode_Click"/>
+            <MenuItem Name="EditNode" Header="Edit node" Click="EditNode_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
             <MenuItem Name="AddChild" Header="Add child node"/>
         </ContextMenu>
     </Window.Resources>
-    <Grid Name="MainGrid">
+    <Canvas Name="MainCanvas">
         
-    </Grid>
+    </Canvas>
 </Window>

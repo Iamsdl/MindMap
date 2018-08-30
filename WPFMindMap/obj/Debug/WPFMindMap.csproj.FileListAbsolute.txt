@@ -15,3 +15,6 @@ D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.csproj.GenerateResource.ca
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.csproj.CoreCompileInputs.cache
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.exe
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.pdb
+D:\SDL\Github\MindMap\WPFMindMap\bin\Debug\Classes.dll
+D:\SDL\Github\MindMap\WPFMindMap\bin\Debug\Classes.pdb
+D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.csproj.CopyComplete
