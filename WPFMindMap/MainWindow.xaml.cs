@@ -1,19 +1,10 @@
-﻿using System.Drawing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Classes;
+using WPFMindMap.Classes;
 
 namespace WPFMindMap
 {
@@ -22,7 +13,7 @@ namespace WPFMindMap
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Node tree;
+        private Node node;
 
         public MainWindow()
         {
@@ -36,72 +27,18 @@ namespace WPFMindMap
 
             if (createNode.DialogResult == true)
             {
-                #region rectangle
+                string title = !string.IsNullOrWhiteSpace(createNode.TitleTextBox.Text) ? createNode.TitleTextBox.Text : "node";
+
+                TextRange textRange = new TextRange(createNode.Description.Document.ContentStart, createNode.Description.Document.ContentEnd);
+                string richText = textRange.Text;
+                string description = !string.IsNullOrWhiteSpace(richText) ? richText : "node description";
+
                 var red = Convert.ToByte(!string.IsNullOrWhiteSpace(createNode.Red.Text) ? createNode.Red.Text : "0");
                 var green = Convert.ToByte(!string.IsNullOrWhiteSpace(createNode.Red.Text) ? createNode.Green.Text : "0");
                 var blue = Convert.ToByte(!string.IsNullOrWhiteSpace(createNode.Red.Text) ? createNode.Blue.Text : "0");
                 Color rectangleColor = Color.FromRgb(red, green, blue);
-                Rectangle rectangle = new Rectangle()
-                {
-                    Height = 100,
-                    Width = 100,
-                    Fill = new SolidColorBrush(rectangleColor),
-                    RadiusX = 13,
-                    RadiusY = 13,
-                    ContextMenu = FindResource("NodeContext") as ContextMenu
-                };
-                #endregion
 
-                #region label
-                byte x = 255;
-                Color labelColor = Color.FromRgb((byte)(x - red), (byte)(x - green), (byte)(x - blue));
-                Label title = new Label()
-                {
-                    Content = !string.IsNullOrWhiteSpace(createNode.Title.Text) ? createNode.Title.Text : "node",
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalContentAlignment = HorizontalAlignment.Center,
-                    VerticalContentAlignment = VerticalAlignment.Center,
-                    Foreground = new SolidColorBrush(labelColor),
-                    ContextMenu = FindResource("NodeContext") as ContextMenu
-                };
-                #endregion
-
-                #region description
-                TextRange textRange = new TextRange(createNode.Description.Document.ContentStart, createNode.Description.Document.ContentEnd);
-                string richText = textRange.Text;
-                Label description = new Label()
-                {
-                    Content = !string.IsNullOrWhiteSpace(richText) ? richText : "node description",
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    HorizontalContentAlignment = HorizontalAlignment.Center,
-                    VerticalContentAlignment = VerticalAlignment.Center,
-                    Visibility = Visibility.Collapsed
-                };
-                #endregion
-
-                #region grid
-                Grid grid = new Grid()
-                {
-                    Height = 100,
-                    Width = 100
-                };
-                
-
-
-                grid.MouseDown+= (s, eargs) =>
-                  {
-                      Grid gridSender = s as Grid;
-                      Point mousepos=eargs.GetPosition(MainCanvas);
-                      
-                  };
-                grid.Children.Add(rectangle);
-                grid.Children.Add(title);
-                grid.Children.Add(description);
-                #endregion
-
-                MainCanvas.Children.Add(grid);
+                node = new Node(title, description, rectangleColor, MainCanvas);
             }
         }
 
@@ -123,7 +60,7 @@ namespace WPFMindMap
             Label description = grid.Children[2] as Label;
 
             CreateNode editNode = new CreateNode();
-            editNode.Title.Text = title.Content.ToString();
+            editNode.TitleTextBox.Text = title.Content.ToString();
             editNode.Description.Document.Blocks.Clear();
             editNode.Description.Document.Blocks.Add(new Paragraph(new Run(title.Content.ToString())));
             editNode.Red.Text = (rectangle.Fill as SolidColorBrush).Color.R.ToString();
@@ -144,7 +81,7 @@ namespace WPFMindMap
                 #region label
                 byte x = 255;
                 Color labelColor = Color.FromRgb((byte)(x - red), (byte)(x - green), (byte)(x - blue));
-                title.Content = editNode.Title.Text;
+                title.Content = editNode.TitleTextBox.Text;
                 title.Foreground = new SolidColorBrush(labelColor);
                 #endregion
 

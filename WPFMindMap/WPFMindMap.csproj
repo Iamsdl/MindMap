@@ -66,6 +66,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Classes\Node.cs" />
     <Compile Include="CreateNode.xaml.cs">
       <DependentUpon>CreateNode.xaml</DependentUpon>
     </Compile>
@@ -99,12 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Classes\Classes.csproj">
-      <Project>{CAE5BD27-99BA-4CC2-91A2-4AE14F9E7EF9}</Project>
-      <Name>Classes</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
