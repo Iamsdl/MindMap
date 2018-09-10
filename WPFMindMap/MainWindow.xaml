@@ -14,7 +14,7 @@
     <Window.Resources>
         <ContextMenu x:Key="NodeContext">
             <MenuItem Name="EditNode" Header="Edit node" Click="EditNode_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
-            <MenuItem Name="AddChild" Header="Add child node"/>
+            <MenuItem Name="AddChild" Header="Add child node" Click="AddChild_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
         </ContextMenu>
     </Window.Resources>
     <Canvas Name="MainCanvas">

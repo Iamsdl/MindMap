@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Input;
 
 namespace WPFMindMap.Classes
 {
     class Node
     {
-        public Node(string title, string description, Color color, Canvas mainCanvas) : this(title, description, color)
+        public Node(string title, string description, Color color, ContextMenu menu, Canvas mainCanvas) : this(title, description, color, menu)
         {
             mainCanvas.Children.Add(Canvas);
         }
-        public Node(string title, string description, Color color)
+        public Node(string title, string description, Color color, ContextMenu menu)
         {
             Rectangle = new Rectangle()
             {
@@ -27,11 +25,12 @@ namespace WPFMindMap.Classes
             };
             TitleLabel = new Label()
             {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
+                Height = 100,
+                Width = 100,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center
             };
+            TitleLabel.ContextMenu = menu;
             Canvas = new Canvas()
             {
                 Height = 100,
@@ -45,7 +44,7 @@ namespace WPFMindMap.Classes
             Color = color;
             Top = 0;
             Left = 0;
-            Name = "0";
+            Name = "";
             Children = new List<Node>();
         }
 
@@ -75,6 +74,7 @@ namespace WPFMindMap.Classes
                 TitleLabel.Foreground = new SolidColorBrush(labelColor);
             }
         }
+
         public double Top
         {
             get
@@ -98,7 +98,17 @@ namespace WPFMindMap.Classes
             }
         }
 
-        private string Name { get; set; }
+        private string Name
+        {
+            get
+            {
+                return TitleLabel.Name;
+            }
+            set
+            {
+                TitleLabel.Name = value;
+            }
+        }
         private Canvas Canvas { get; set; }
         private Rectangle Rectangle { get; set; }
         private Label TitleLabel { get; set; }
@@ -106,11 +116,26 @@ namespace WPFMindMap.Classes
         private Node Parent { get; set; }
         private List<Node> Children { get; set; }
 
-        public void AddChild(Node node)
+        public Node Find(string name)
         {
-            node.Parent = this;
-            Children.Add(node);
-            Canvas.Children.Add(node.Canvas);
+            if (String.IsNullOrEmpty(name))
+            {
+                return this;
+            }
+            else
+            {
+                ushort index = Convert.ToUInt16(name.Substring(0, 2));
+                Node child = Children[index];
+                return child.Find(name.Substring(2, name.Length - 2));
+            }
+
+        }
+        public void AddChild(Node child)
+        {
+            child.Name = Name + string.Format("{00:1}", Children.Count + 1);
+            child.Parent = this;
+            Children.Add(child);
+            Canvas.Children.Add(child.Canvas);
         }
     }
 }

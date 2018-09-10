@@ -1,11 +1,12 @@
+D:\SDL\Github\MindMap\WPFMindMap\bin\Debug\WPFMindMap.exe.config
+D:\SDL\Github\MindMap\WPFMindMap\bin\Debug\WPFMindMap.exe
+D:\SDL\Github\MindMap\WPFMindMap\bin\Debug\WPFMindMap.pdb
+D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.csprojAssemblyReference.cache
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\CreateNode.g.cs
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\MainWindow.g.cs
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\App.g.cs
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap_MarkupCompile.cache
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap_MarkupCompile.lref
-D:\SDL\Github\MindMap\WPFMindMap\bin\Debug\WPFMindMap.exe.config
-D:\SDL\Github\MindMap\WPFMindMap\bin\Debug\WPFMindMap.exe
-D:\SDL\Github\MindMap\WPFMindMap\bin\Debug\WPFMindMap.pdb
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\CreateNode.baml
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\MainWindow.baml
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.g.resources
@@ -14,4 +15,3 @@ D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.csproj.GenerateResource.ca
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.csproj.CoreCompileInputs.cache
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.exe
 D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.pdb
-D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.csprojAssemblyReference.cache
