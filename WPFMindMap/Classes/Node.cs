@@ -13,6 +13,8 @@ namespace WPFMindMap.Classes
         public Node(string title, string description, Color color, ContextMenu menu, Canvas mainCanvas) : this(title, description, color, menu)
         {
             mainCanvas.Children.Add(Canvas);
+            Canvas.SetLeft(Canvas, 0);
+            Canvas.SetTop(Canvas, 0);
         }
         public Node(string title, string description, Color color, ContextMenu menu)
         {
@@ -31,6 +33,7 @@ namespace WPFMindMap.Classes
                 VerticalContentAlignment = VerticalAlignment.Center
             };
             TitleLabel.ContextMenu = menu;
+            TitleLabel.PreviewMouseMove += TitleLabel_PreviewMouseMove;
             Canvas = new Canvas()
             {
                 Height = 100,
@@ -46,6 +49,14 @@ namespace WPFMindMap.Classes
             Left = 0;
             Name = "";
             Children = new List<Node>();
+        }
+
+        private void TitleLabel_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (sender is Label titleLabel && e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragDrop.DoDragDrop(titleLabel, new Point(Left, Top), DragDropEffects.Move);
+            }
         }
 
         public string Title
@@ -79,11 +90,11 @@ namespace WPFMindMap.Classes
         {
             get
             {
-                return Canvas.GetTop(Canvas);
+                return Canvas.GetTop(this.Canvas);
             }
             set
             {
-                Canvas.SetTop(Canvas, Top);
+                Canvas.SetValue(Canvas.TopProperty, value);
             }
         }
         public double Left
@@ -94,7 +105,7 @@ namespace WPFMindMap.Classes
             }
             set
             {
-                Canvas.SetTop(Canvas, Left);
+                Canvas.SetValue(Canvas.LeftProperty, value);
             }
         }
 
@@ -109,24 +120,24 @@ namespace WPFMindMap.Classes
                 TitleLabel.Name = value;
             }
         }
-        private Canvas Canvas { get; set; }
+        public Canvas Canvas { get; set; }
         private Rectangle Rectangle { get; set; }
         private Label TitleLabel { get; set; }
 
         private Node Parent { get; set; }
         private List<Node> Children { get; set; }
 
-        public Node Find(string name)
+        public static Node Find(Node node, string name)
         {
             if (String.IsNullOrEmpty(name))
             {
-                return this;
+                return node;
             }
             else
             {
                 ushort index = Convert.ToUInt16(name.Substring(0, 2));
-                Node child = Children[index];
-                return child.Find(name.Substring(2, name.Length - 2));
+                Node child = node.Children[index];
+                return Find(child, name.Substring(2, name.Length - 2));
             }
 
         }
