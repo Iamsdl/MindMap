@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\
+D:\GitHub\MindMap\WPFMindMap\obj\Debug\
 WPFMindMap
 none
 false
 DEBUG;TRACE
-D:\SDL\Github\MindMap\WPFMindMap\App.xaml
+D:\GitHub\MindMap\WPFMindMap\App.xaml
 2206232743
 
-11110900538
+11109854606
 131569487696
 CreateNode.xaml;MainWindow.xaml;
 
-False
+True
 
