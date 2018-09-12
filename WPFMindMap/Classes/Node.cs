@@ -16,7 +16,7 @@ namespace WPFMindMap.Classes
             Canvas.SetLeft(Canvas, 0);
             Canvas.SetTop(Canvas, 0);
         }
-        public Node(string title, string description, Color color, ContextMenu menu)
+        public Node(string title, string description, Color color, ContextMenu menu,double top=0,double left=0)
         {
             Rectangle = new Rectangle()
             {
@@ -39,16 +39,26 @@ namespace WPFMindMap.Classes
                 Height = 100,
                 Width = 100
             };
+            Line = new Line()
+            {
+                StrokeThickness = 10,
+                Stroke = new SolidColorBrush(Color.FromRgb(0, 0, 0))
+            };
             Canvas.Children.Add(Rectangle);
             Canvas.Children.Add(TitleLabel);
-
             Title = title;
             Description = description;
             Color = color;
-            Top = 0;
-            Left = 0;
-            Name = "";
+            Top = top;
+            Left = left;
+            Name = "a";
+
             Children = new List<Node>();
+        }
+
+        internal void AddToWindow(Canvas mainCanvas)
+        {
+            mainCanvas.Children.Add(this.Canvas);
         }
 
         private void TitleLabel_PreviewMouseMove(object sender, MouseEventArgs e)
@@ -95,6 +105,7 @@ namespace WPFMindMap.Classes
             set
             {
                 Canvas.SetValue(Canvas.TopProperty, value);
+                Line.Y2 = value + 50;
             }
         }
         public double Left
@@ -106,8 +117,12 @@ namespace WPFMindMap.Classes
             set
             {
                 Canvas.SetValue(Canvas.LeftProperty, value);
+                Line.X2 = value + 50;
             }
         }
+
+        public Node Parent { get; set; }
+        public List<Node> Children { get; set; }
 
         private string Name
         {
@@ -123,30 +138,89 @@ namespace WPFMindMap.Classes
         public Canvas Canvas { get; set; }
         private Rectangle Rectangle { get; set; }
         private Label TitleLabel { get; set; }
+        private Line Line { get; set; }
 
-        private Node Parent { get; set; }
-        private List<Node> Children { get; set; }
 
-        public static Node Find(Node node, string name)
+        public Node Find(string name)
         {
             if (String.IsNullOrEmpty(name))
             {
-                return node;
+                return null;
+            }
+            if (name == "a")
+            {
+                return this;
             }
             else
             {
-                ushort index = Convert.ToUInt16(name.Substring(0, 2));
-                Node child = node.Children[index];
-                return Find(child, name.Substring(2, name.Length - 2));
+                int index = Convert.ToInt32(name.Substring(1, 2)) - 1;
+                Node child = this.Children[index];
+                return child.Find("a" + name.Substring(3, name.Length - 3));
             }
 
         }
+
+        public void Move(DragEventArgs e)
+        {
+            Top = e.GetPosition(Parent.TitleLabel).Y - 50;
+            Left = e.GetPosition(Parent.TitleLabel).X - 50;
+        }
+
+        internal void Move(Label zeroLabel, DragEventArgs e)
+        {
+            Top = e.GetPosition(zeroLabel).Y - 50;
+            Left = e.GetPosition(zeroLabel).X - 50;
+        }
+
         public void AddChild(Node child)
         {
-            child.Name = Name + string.Format("{00:1}", Children.Count + 1);
+            child.Name = this.Name + string.Format("{0,2:00}", this.Children.Count + 1);
             child.Parent = this;
-            Children.Add(child);
-            Canvas.Children.Add(child.Canvas);
+
+            child.Line.X1 = 50;
+            child.Line.Y1 = 50;
+            child.Line.X2 = child.Left + 50;
+            child.Line.Y2 = child.Top + 50;
+
+            this.Canvas.Children.Add(child.Canvas);
+            this.Canvas.Children.Add(child.Line);
+            this.Children.Add(child);
+
+
+            child.Line.SetValue(Canvas.ZIndexProperty, -999);
+        }
+
+        internal void Delete(string name)
+        {
+            if (Parent != null)
+            {
+                Parent.Canvas.Children.Remove(Canvas);
+                Parent.Canvas.Children.Remove(Line);
+
+                Parent.Children.Remove(this);
+            }
+
+        }
+
+        public NodeJson ToNodeJson()
+        {
+            NodeJson nodeJson = new NodeJson
+            {
+                Title = Title,
+                Description = Description,
+                Top = Top,
+                Left = Left,
+                Red = Color.R,
+                Green = Color.G,
+                Blue = Color.B,
+                Children = new List<NodeJson>()
+            };
+            foreach (Node node in Children)
+            {
+                NodeJson childNodeJson = node.ToNodeJson();
+                nodeJson.Children.Add(childNodeJson);
+            }
+            return nodeJson;
         }
     }
 }

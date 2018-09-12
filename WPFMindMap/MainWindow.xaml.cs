@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -7,6 +8,7 @@ using System.Windows.Shapes;
 using WPFMindMap.Classes;
 using System.Windows.Input;
 using System.Diagnostics;
+using System.IO;
 
 namespace WPFMindMap
 {
@@ -15,34 +17,68 @@ namespace WPFMindMap
     /// </summary>
     public partial class MainWindow : Window
     {
-        private Node node;
+        private const string Path = "./tree.txt";
+        private Node tree;
         private ContextMenu nodeContext;
-
+        private double initialX = 0;
+        private double initialY = 0;
+        private double Scale
+        {
+            get
+            {
+                return ScaleTrans.ScaleX;
+            }
+            set
+            {
+                if (value > 0.1)
+                {
+                    ScaleTrans.ScaleX = value;
+                    ScaleTrans.ScaleY = value;
+                }
+            }
+        }
         public MainWindow()
         {
             InitializeComponent();
             nodeContext = (ContextMenu)FindResource("NodeContext");
+            ScaleTrans.CenterX = ActualWidth / 2;
+            ScaleTrans.CenterY = ActualHeight / 2;
+
+            if (File.Exists(Path))
+            {
+                string json = File.ReadAllText(Path);
+                NodeJson nodeJson = JsonConvert.DeserializeObject<NodeJson>(json);
+                tree = nodeJson.ToNode(nodeContext);
+                MainCanvas.Children.Add(tree.Canvas);
+            }
         }
 
         private void EmptyAddNode_Click(object sender, RoutedEventArgs e)
         {
-            CreateNode createNode = new CreateNode();
-            createNode.ShowDialog();
-
-            if (createNode.DialogResult == true)
+            if (tree == null)
             {
-                string title = !string.IsNullOrWhiteSpace(createNode.TitleTextBox.Text) ? createNode.TitleTextBox.Text : "node";
+                CreateNode createNode = new CreateNode();
+                createNode.ShowDialog();
 
-                TextRange textRange = new TextRange(createNode.Description.Document.ContentStart, createNode.Description.Document.ContentEnd);
-                string richText = textRange.Text;
-                string description = !string.IsNullOrWhiteSpace(richText) ? richText : "node description";
+                if (createNode.DialogResult == true)
+                {
+                    string title = !string.IsNullOrWhiteSpace(createNode.TitleTextBox.Text) ? createNode.TitleTextBox.Text : "node";
 
-                var red = Convert.ToByte(!string.IsNullOrWhiteSpace(createNode.Red.Text) ? createNode.Red.Text : "0");
-                var green = Convert.ToByte(!string.IsNullOrWhiteSpace(createNode.Red.Text) ? createNode.Green.Text : "0");
-                var blue = Convert.ToByte(!string.IsNullOrWhiteSpace(createNode.Red.Text) ? createNode.Blue.Text : "0");
-                Color rectangleColor = Color.FromRgb(red, green, blue);
+                    TextRange textRange = new TextRange(createNode.Description.Document.ContentStart, createNode.Description.Document.ContentEnd);
+                    string richText = textRange.Text;
+                    string description = !string.IsNullOrWhiteSpace(richText) ? richText : "node description";
 
-                node = new Node(title, description, rectangleColor, nodeContext, MainCanvas);
+                    var red = Convert.ToByte(!string.IsNullOrWhiteSpace(createNode.Red.Text) ? createNode.Red.Text : "0");
+                    var green = Convert.ToByte(!string.IsNullOrWhiteSpace(createNode.Red.Text) ? createNode.Green.Text : "0");
+                    var blue = Convert.ToByte(!string.IsNullOrWhiteSpace(createNode.Red.Text) ? createNode.Blue.Text : "0");
+                    Color rectangleColor = Color.FromRgb(red, green, blue);
+
+                    tree = new Node(title, description, rectangleColor, nodeContext, MainCanvas);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Root node already exists");
             }
         }
         private void EditNode_Click(object sender, RoutedEventArgs e)
@@ -58,7 +94,7 @@ namespace WPFMindMap
             if (title == null)
                 return;
 
-            Node nodeToEdit = Node.Find(node, title.Name);
+            Node nodeToEdit = tree.Find(title.Name);
 
             CreateNode editNode = new CreateNode();
             editNode.TitleTextBox.Text = nodeToEdit.Title;
@@ -97,7 +133,7 @@ namespace WPFMindMap
             if (titleLabel == null)
                 return;
 
-            Node nodeToAddChild = Node.Find(node, titleLabel.Name);
+            Node parent = tree.Find(titleLabel.Name);
 
             CreateNode editNode = new CreateNode();
             editNode.ShowDialog();
@@ -116,17 +152,91 @@ namespace WPFMindMap
                 Color color = Color.FromRgb(red, green, blue);
 
                 Node child = new Node(title, description, color, nodeContext);
-                nodeToAddChild.AddChild(child);
+                parent.AddChild(child);
             }
         }
 
-        private void MainWindow_Drop(object sender, DragEventArgs e)
+        private void MainWindow_DragOver(object sender, DragEventArgs e)
         {
-            Debug.WriteLine(node.Top.ToString());
-            Label labelSource = e.Source as Label;
-            Node movingNode = Node.Find(node, labelSource.Name);
-            movingNode.Top = e.GetPosition(this).Y - 50;
-            movingNode.Left = e.GetPosition(this).X - 50;
+            if (e.Source is Label labelSource)
+            {
+                Node movingNode = tree.Find(labelSource.Name);
+                if (movingNode == tree)
+                {
+                    movingNode.Move(ZeroLabel, e);
+                }
+                else
+                {
+                    movingNode.Move(e);
+                }
+            }
+        }
+
+        private void Window_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.MiddleButton == MouseButtonState.Pressed)
+            {
+                if (initialX != 0)
+                {
+                    var deltaX = e.GetPosition(ZeroLabel).X - initialX;
+                    var deltaY = e.GetPosition(ZeroLabel).Y - initialY;
+                    tree.Top += deltaY;
+                    tree.Left += deltaX;
+                }
+                initialX = e.GetPosition(ZeroLabel).X;
+                initialY = e.GetPosition(ZeroLabel).Y;
+            }
+        }
+
+        private void Window_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            initialX = 0;
+            initialY = 0;
+        }
+
+        private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                Scale += 0.1;
+            }
+            else
+            {
+                Scale -= 0.1;
+            }
+        }
+
+        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            ScaleTrans.CenterX = ActualWidth / 2;
+            ScaleTrans.CenterY = ActualHeight / 2;
+        }
+
+        private void DeleteNode_Click(object sender, RoutedEventArgs e)
+        {
+            Label title = null;
+            if (sender is MenuItem menuItem)
+            {
+                if (menuItem.CommandParameter is ContextMenu contextMenu)
+                {
+                    title = contextMenu.PlacementTarget as Label;
+                }
+            }
+            if (title == null)
+                return;
+
+            tree.Delete(title.Name);
+
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((e.Key == Key.S) && (Keyboard.Modifiers == ModifierKeys.Control))
+            {
+                NodeJson nodeJson = tree.ToNodeJson();
+                string json = JsonConvert.SerializeObject(nodeJson);
+                File.WriteAllText(Path, json);
+            }
         }
     }
 }

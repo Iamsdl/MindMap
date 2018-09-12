@@ -6,7 +6,12 @@
         xmlns:local="clr-namespace:WPFMindMap"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-         AllowDrop="True" DragOver="MainWindow_Drop">
+         AllowDrop="True" DragOver="MainWindow_DragOver"
+        PreviewMouseMove="Window_MouseMove"
+        MouseUp="Window_MouseUp"
+        MouseWheel="Window_MouseWheel"
+        SizeChanged="Window_SizeChanged"
+        KeyDown="Window_KeyDown">
     <Window.ContextMenu>
         <ContextMenu Name="GridContextMenu">
             <MenuItem Name="EmptyAddNode" Header="Create new node" Click="EmptyAddNode_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
@@ -16,8 +21,13 @@
         <ContextMenu x:Key="NodeContext">
             <MenuItem Name="EditNode" Header="Edit node" Click="EditNode_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
             <MenuItem Name="AddChild" Header="Add child node" Click="AddChild_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
+            <MenuItem Name="DeleteNode" Header="Delete node" Click="DeleteNode_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>
         </ContextMenu>
     </Window.Resources>
     <Canvas Name="MainCanvas">
+        <Canvas.RenderTransform>
+            <ScaleTransform x:Name="ScaleTrans"/>
+        </Canvas.RenderTransform>
+        <Label Name="ZeroLabel" Visibility="Collapsed" Canvas.Top="0" Canvas.Left="0"></Label>
     </Canvas>
 </Window>
