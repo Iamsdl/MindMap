@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using WPFMindMap.Classes;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace WPFMindMap
 {
@@ -16,8 +17,6 @@ namespace WPFMindMap
     {
         private Node node;
         private ContextMenu nodeContext;
-        private double initialX;
-        private double initialY;
 
         public MainWindow()
         {
@@ -59,7 +58,7 @@ namespace WPFMindMap
             if (title == null)
                 return;
 
-            Node nodeToEdit = node.Find(title.Name);
+            Node nodeToEdit = Node.Find(node, title.Name);
 
             CreateNode editNode = new CreateNode();
             editNode.TitleTextBox.Text = nodeToEdit.Title;
@@ -85,7 +84,6 @@ namespace WPFMindMap
                 nodeToEdit.Color = Color.FromRgb(red, green, blue);
             }
         }
-
         private void AddChild_Click(object sender, RoutedEventArgs e)
         {
             Label titleLabel = null;
@@ -99,7 +97,7 @@ namespace WPFMindMap
             if (titleLabel == null)
                 return;
 
-            Node nodeToAddChild = node.Find(titleLabel.Name);
+            Node nodeToAddChild = Node.Find(node, titleLabel.Name);
 
             CreateNode editNode = new CreateNode();
             editNode.ShowDialog();
@@ -120,6 +118,15 @@ namespace WPFMindMap
                 Node child = new Node(title, description, color, nodeContext);
                 nodeToAddChild.AddChild(child);
             }
+        }
+
+        private void MainWindow_Drop(object sender, DragEventArgs e)
+        {
+            Debug.WriteLine(node.Top.ToString());
+            Label labelSource = e.Source as Label;
+            Node movingNode = Node.Find(node, labelSource.Name);
+            movingNode.Top = e.GetPosition(this).Y - 50;
+            movingNode.Left = e.GetPosition(this).X - 50;
         }
     }
 }
