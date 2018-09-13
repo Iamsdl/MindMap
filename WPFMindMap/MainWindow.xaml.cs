@@ -53,6 +53,14 @@ namespace WPFMindMap
             }
         }
 
+        protected override void OnClosed(EventArgs e)
+        {
+            NodeJson nodeJson = tree.ToNodeJson();
+            string json = JsonConvert.SerializeObject(nodeJson);
+            File.WriteAllText(Path, json);
+            base.OnClosed(e);
+        }
+
         private void EmptyAddNode_Click(object sender, RoutedEventArgs e)
         {
             if (tree == null)
@@ -225,18 +233,9 @@ namespace WPFMindMap
             if (title == null)
                 return;
 
-            tree.Delete(title.Name);
+            Node nodeToDelete=tree.Find(title.Name);
+            nodeToDelete.Delete();
 
-        }
-
-        private void Window_KeyDown(object sender, KeyEventArgs e)
-        {
-            if ((e.Key == Key.S) && (Keyboard.Modifiers == ModifierKeys.Control))
-            {
-                NodeJson nodeJson = tree.ToNodeJson();
-                string json = JsonConvert.SerializeObject(nodeJson);
-                File.WriteAllText(Path, json);
-            }
         }
     }
 }

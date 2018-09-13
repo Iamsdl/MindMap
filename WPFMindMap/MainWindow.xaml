@@ -10,8 +10,7 @@
         PreviewMouseMove="Window_MouseMove"
         MouseUp="Window_MouseUp"
         MouseWheel="Window_MouseWheel"
-        SizeChanged="Window_SizeChanged"
-        KeyDown="Window_KeyDown">
+        SizeChanged="Window_SizeChanged">
     <Window.ContextMenu>
         <ContextMenu Name="GridContextMenu">
             <MenuItem Name="EmptyAddNode" Header="Create new node" Click="EmptyAddNode_Click" CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Parent}"/>

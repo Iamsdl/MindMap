@@ -16,7 +16,7 @@ namespace WPFMindMap.Classes
             Canvas.SetLeft(Canvas, 0);
             Canvas.SetTop(Canvas, 0);
         }
-        public Node(string title, string description, Color color, ContextMenu menu,double top=0,double left=0)
+        public Node(string title, string description, Color color, ContextMenu menu, double top = 0, double left = 0)
         {
             Rectangle = new Rectangle()
             {
@@ -190,7 +190,7 @@ namespace WPFMindMap.Classes
             child.Line.SetValue(Canvas.ZIndexProperty, -999);
         }
 
-        internal void Delete(string name)
+        internal void Delete()
         {
             if (Parent != null)
             {
@@ -198,8 +198,28 @@ namespace WPFMindMap.Classes
                 Parent.Canvas.Children.Remove(Line);
 
                 Parent.Children.Remove(this);
+                for (int i = 0; i < Parent.Children.Count; i++)
+                {
+                    if (Parent.Children[i].Name == String.Format(Parent.Name + "{0,2:00}", i))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        Parent.Children[i].Rename(i);
+                    }
+                }
             }
 
+        }
+
+        private void Rename(int index)
+        {
+            Name = String.Format(Parent.Name + "{0,2:00}", index);
+            for (int i = 0; i < Children.Count; i++)
+            {
+                Children[i].Rename(i);
+            }
         }
 
         public NodeJson ToNodeJson()
