@@ -35,3 +35,6 @@ D:\GitHub\MindMap\WPFMindMap\obj\Debug\WPFMindMap.pdb
 D:\GitHub\MindMap\WPFMindMap\bin\Debug\Newtonsoft.Json.dll
 D:\GitHub\MindMap\WPFMindMap\bin\Debug\Newtonsoft.Json.xml
 D:\GitHub\MindMap\WPFMindMap\obj\Debug\WPFMindMap.csproj.CopyComplete
+D:\SDL\Github\MindMap\WPFMindMap\bin\Debug\Newtonsoft.Json.dll
+D:\SDL\Github\MindMap\WPFMindMap\bin\Debug\Newtonsoft.Json.xml
+D:\SDL\Github\MindMap\WPFMindMap\obj\Debug\WPFMindMap.csproj.CopyComplete
