@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace WPFMindMap.Classes
 {
@@ -42,7 +43,7 @@ namespace WPFMindMap.Classes
             Line = new Line()
             {
                 StrokeThickness = 10,
-                Stroke = new LinearGradientBrush(Color.FromArgb(255, 255, 0, 0), Color.FromArgb(255, 0, 255, 0), new Point(0.5,0.5),new Point(1,1))
+                Stroke = new LinearGradientBrush(Color.FromArgb(255, 0, 0, 0), Color.FromArgb(0, 0, 0, 0), new Point(0.5, 0.5), new Point(1, 1))
             };
             Canvas.Children.Add(Rectangle);
             Canvas.Children.Add(TitleLabel);
@@ -106,9 +107,9 @@ namespace WPFMindMap.Classes
             {
                 Canvas.SetValue(Canvas.TopProperty, value);
                 Line.Y2 = value + 50;
-                var angle = Math.Atan2(value + 50 - 0.5, Left - 0.5);
-                
-                ((LinearGradientBrush)Line.Stroke).EndPoint = new Point(Left, value + 50);
+                var angle = Math.Atan2(value, Left);
+                Debug.WriteLine(angle * 180 / Math.PI);
+                ((LinearGradientBrush)Line.Stroke).EndPoint = new Point(Math.Cos(angle) / 4 + 0.5, Math.Sin(angle) / 4 + 0.5);
             }
         }
         public double Left
@@ -121,8 +122,6 @@ namespace WPFMindMap.Classes
             {
                 Canvas.SetValue(Canvas.LeftProperty, value);
                 Line.X2 = value + 50;
-
-                ((LinearGradientBrush)Line.Stroke). = new Point(value + 50, Top);
             }
         }
 
@@ -158,7 +157,7 @@ namespace WPFMindMap.Classes
             }
             else
             {
-                int index = Convert.ToInt32(name.Substring(1, 2)) - 1;
+                int index = Convert.ToInt32(name.Substring(1, 2));
                 Node child = this.Children[index];
                 return child.Find("a" + name.Substring(3, name.Length - 3));
             }
@@ -179,16 +178,13 @@ namespace WPFMindMap.Classes
 
         public void AddChild(Node child)
         {
-            child.Name = this.Name + string.Format("{0,2:00}", this.Children.Count + 1);
+            child.Name = this.Name + string.Format("{0,2:00}", this.Children.Count);
             child.Parent = this;
 
             child.Line.X1 = 50;
             child.Line.Y1 = 50;
             child.Line.X2 = child.Left + 50;
             child.Line.Y2 = child.Top + 50;
-
-            //(child.Line.Stroke as LinearGradientBrush).StartPoint = new Point(50, 50);
-
             this.Canvas.Children.Add(child.Canvas);
             this.Canvas.Children.Add(child.Line);
             this.Children.Add(child);
