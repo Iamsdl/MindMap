@@ -1,0 +1,16 @@
+D:\GitHub\MindMap\NodeUnitTests\obj\Debug\NodeUnitTests.csprojAssemblyReference.cache
+D:\GitHub\MindMap\NodeUnitTests\obj\Debug\NodeUnitTests.csproj.CoreCompileInputs.cache
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\NodeUnitTests.dll
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\NodeUnitTests.pdb
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\NodeLibrary.dll
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\NodeLibrary.pdb
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+D:\GitHub\MindMap\NodeUnitTests\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+D:\GitHub\MindMap\NodeUnitTests\obj\Debug\NodeUnitTests.csproj.CopyComplete
+D:\GitHub\MindMap\NodeUnitTests\obj\Debug\NodeUnitTests.dll
+D:\GitHub\MindMap\NodeUnitTests\obj\Debug\NodeUnitTests.pdb

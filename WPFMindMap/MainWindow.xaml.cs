@@ -65,7 +65,7 @@ namespace WPFMindMap
         {
             if (tree == null)
             {
-                CreateNode createNode = new CreateNode();
+                NodeDialog createNode = new NodeDialog();
                 createNode.ShowDialog();
 
                 if (createNode.DialogResult == true)
@@ -104,7 +104,7 @@ namespace WPFMindMap
 
             Node nodeToEdit = tree.Find(title.Name);
 
-            CreateNode editNode = new CreateNode();
+            NodeDialog editNode = new NodeDialog();
             editNode.TitleTextBox.Text = nodeToEdit.Title;
             editNode.Description.Document.Blocks.Clear();
             editNode.Description.Document.Blocks.Add(new Paragraph(new Run(nodeToEdit.Description)));
@@ -143,7 +143,7 @@ namespace WPFMindMap
 
             Node parent = tree.Find(titleLabel.Name);
 
-            CreateNode editNode = new CreateNode();
+            NodeDialog editNode = new NodeDialog();
             editNode.ShowDialog();
 
             if (editNode.DialogResult == true)

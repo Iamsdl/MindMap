@@ -85,7 +85,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="CreateNode.xaml">
+    <Page Include="NodeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -99,8 +99,8 @@
     </Compile>
     <Compile Include="Classes\Node.cs" />
     <Compile Include="Classes\NodeJson.cs" />
-    <Compile Include="CreateNode.xaml.cs">
-      <DependentUpon>CreateNode.xaml</DependentUpon>
+    <Compile Include="NodeDialog.xaml.cs">
+      <DependentUpon>NodeDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

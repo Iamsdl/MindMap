@@ -1,0 +1,6 @@
+D:\GitHub\MindMap\NodeLibrary\bin\Debug\NodeLibrary.dll
+D:\GitHub\MindMap\NodeLibrary\bin\Debug\NodeLibrary.pdb
+D:\GitHub\MindMap\NodeLibrary\obj\Debug\NodeLibrary.csprojAssemblyReference.cache
+D:\GitHub\MindMap\NodeLibrary\obj\Debug\NodeLibrary.csproj.CoreCompileInputs.cache
+D:\GitHub\MindMap\NodeLibrary\obj\Debug\NodeLibrary.dll
+D:\GitHub\MindMap\NodeLibrary\obj\Debug\NodeLibrary.pdb
