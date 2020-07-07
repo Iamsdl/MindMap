@@ -69,7 +69,7 @@ namespace WPFMindMap.Classes
         public Node Parent { get; set; }
         public List<Node> Children { get; set; }
 
-        private Canvas Canvas { get; set; }
+        public Canvas Canvas { get; set; }
         private Rectangle Rectangle { get; set; }
         private Label TitleLabel { get; set; }
         private ContextMenu Menu { get; set; }
@@ -107,7 +107,7 @@ namespace WPFMindMap.Classes
                 Width = 100,
                 HorizontalContentAlignment = HorizontalAlignment.Center,
                 VerticalContentAlignment = VerticalAlignment.Center,
-                size
+                // FontSize
             };
             if (rootNode)
             {
@@ -121,13 +121,15 @@ namespace WPFMindMap.Classes
                 {
                     Name = "AddChildNode"
                 };
-                addChildNode.Click += AddChildNode_Click; ;
+                addChildNode.Click += AddChildNode_Click;
                 MenuItem deleteNode = new MenuItem()
                 {
                     Name = "DeleteNode"
                 };
-                editNode.Click += EditNode_Click;
-                Menu.Items.Add()
+                deleteNode.Click += DeleteNode_Click;
+                Menu.Items.Add(editNode);
+                Menu.Items.Add(addChildNode);
+                Menu.Items.Add(deleteNode);
             }
             Canvas = new Canvas()
             {
@@ -184,9 +186,14 @@ namespace WPFMindMap.Classes
                 var blue = Convert.ToByte(!string.IsNullOrWhiteSpace(addChildDialog.Red.Text) ? addChildDialog.Blue.Text : "0");
                 Color color = Color.FromRgb(red, green, blue);
 
-                Node child = new Node(title, description, color, nodeContext);
+                Node child = new Node(title, description, color, Menu);
                 parent.AddChild(child);
             }
+        }
+
+private void DeleteNode_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
 
         private void EditNode_Click(object sender, RoutedEventArgs e)
